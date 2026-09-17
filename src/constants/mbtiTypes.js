@@ -1,0 +1,18 @@
+export const MBTI_TYPES = {
+  "INFJ": { nickname: "Advocate", group: "Diplomats", description: "Quiet and mystical, yet very inspiring and tireless idealists." },
+  "ENTP": { nickname: "Debater", group: "Analysts", description: "Smart and curious thinkers who cannot resist an intellectual challenge." },
+  "ISTJ": { nickname: "Logistician", group: "Sentinels", description: "Practical and fact-minded individuals, whose reliability cannot be doubted." },
+  "INFP": { nickname: "Mediator", group: "Diplomats", description: "Poetic, kind and altruistic people, always eager to help a good cause." },
+  "INTP": { nickname: "Logician", group: "Analysts", description: "Innovative inventors with an unquenchable thirst for knowledge." },
+  "INTJ": { nickname: "Architect", group: "Analysts", description: "Imaginary and strategic thinkers, with a plan for everything." },
+  "ENFP": { nickname: "Campaigner", group: "Diplomats", description: "Enthusiastic, creative and sociable free spirits." },
+  "ENFJ": { nickname: "Protagonist", group: "Diplomats", description: "Charismatic and inspiring leaders, able to mesmerize their listeners." },
+  "ISFJ": { nickname: "Defender", group: "Sentinels", description: "Very dedicated and warm protectors, always ready to defend their loved ones." },
+  "ISFP": { nickname: "Adventurer", group: "Explorers", description: "Flexible and charming artists, always ready to explore and experience something new." },
+  "ESTP": { nickname: "Entrepreneur", group: "Explorers", description: "Smart, energetic and very perceptive people, who truly enjoy living on the edge." },
+  "ESFP": { nickname: "Entertainer", group: "Explorers", description: "Spontaneous, energetic and enthusiastic people – life is never boring around them." },
+  "ESTJ": { nickname: "Executive", group: "Sentinels", description: "Excellent administrators, unsurpassed at managing things – or people." },
+  "ESFJ": { nickname: "Consul", group: "Sentinels", description: "Extraordinarily caring, social and popular people, always eager to help." },
+  "ENTJ": { nickname: "Commander", group: "Analysts", description: "Bold, imaginative and strong-willed leaders, always finding a way – or making one." },
+  "ISTP": { nickname: "Virtuoso", group: "Explorers", description: "Bold and practical experimenters, who enjoy figuring out how things work." },
+};
