@@ -1,4 +1,11 @@
 import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const DIST_DIR = path.join(__dirname, 'dist');
 
 const PORT = Number(process.env.PORT || 8000);
 const TYPES = [
@@ -6,6 +13,17 @@ const TYPES = [
   'ENFP', 'ENFJ', 'ISFJ', 'ISFP', 'ESTP', 'ESFP',
   'ESTJ', 'ESFJ', 'ENTJ', 'ISTP'
 ];
+
+const MIME_TYPES = {
+  '.html': 'text/html',
+  '.js': 'application/javascript',
+  '.css': 'text/css',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+};
 
 export function generatePrediction(text) {
   const normalized = String(text || '').trim();
@@ -90,6 +108,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // --- API Endpoints ---
   if (url.pathname === '/model-info') {
     sendJson(res, 200, {
       model: 'Mock MBTI Model',
@@ -106,7 +125,6 @@ const server = http.createServer((req, res) => {
     }
 
     let body = '';
-
     req.on('data', (chunk) => {
       body += chunk;
     });
@@ -131,12 +149,32 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  sendJson(res, 404, { detail: 'Not found' });
+  // --- Static Frontend Serving (Vite 'dist' folder) ---
+  let filePath = path.join(DIST_DIR, url.pathname === '/' ? 'index.html' : url.pathname);
+
+  fs.stat(filePath, (err, stats) => {
+    // If the static asset doesn't exist, fallback to index.html for Single Page Application routing
+    if (err || !stats.isFile()) {
+      filePath = path.join(DIST_DIR, 'index.html');
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+    fs.readFile(filePath, (readErr, content) => {
+      if (readErr) {
+        sendJson(res, 500, { detail: 'Error loading page' });
+        return;
+      }
+      res.writeHead(200, { 'Content-Type': contentType });
+      res.end(content);
+    });
+  });
 });
 
 if (process.env.NODE_ENV !== 'test') {
-  server.listen(PORT, () => {
-    console.log(`Mock API running at http://localhost:${PORT}`);
+  server.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server running on port ${PORT}`);
   });
 }
 
